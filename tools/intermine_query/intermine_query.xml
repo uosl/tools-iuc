@@ -1,0 +1,21 @@
+<tool id="intermine_query" name="Query InterMine" version="0.1.0">
+    <description>
+        Get data from a query to an InterMine instance.
+    </description>
+    <requirements>
+        <requirement type="package" version="1.11.0">intermine</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        python '$__tool_directory__/query.py' '$symbol' > '$output'
+    ]]></command>
+    <inputs>
+        <param name="symbol" type="text" label="Gene symbol" help="WOAH HELP ME" />
+    </inputs>
+    <outputs>
+        <data name="output" format="tsv" />
+    </outputs>
+    <help><![CDATA[
+        TODO: Fill in help.
+    ]]></help>
+</tool>
+
