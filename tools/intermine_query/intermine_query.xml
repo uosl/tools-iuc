@@ -6,12 +6,23 @@
         <requirement type="package" version="1.11.0">intermine</requirement>
     </requirements>
     <code file="registries.py" />
+    <code file="model_utils.py" />
     <command detect_errors="exit_code"><![CDATA[
         python '$__tool_directory__/query.py' '$registry' '$symbol'> '$output'
     ]]></command>
     <inputs>
-        <param name="symbol" type="text" label="Gene symbol" help="WOAH HELP ME" />
-	<param name="registry" type="select" label="Select registry" dynamic_options="get_registries()" help="Coasdasdpplied to the selected field's sdafdsa associated with this index." />
+        <param name="registry" type="select" label="Select registry" dynamic_options="get_registries()" />
+        <param name="class" type="select" label="Root data type for query" dynamic_options="get_classes()"/>
+        <repeat name="query" title="Query options">
+            <param name="attribute" type="select" label="Data type" dynamic_options="get_attributes(class)"/>
+            <param name="option" type="select" label="Option">
+                <option value="SHOW" selected="true">SHOW</option>
+                <option value="CONTAINS">CONTAINS</option>
+                <option value="=">=</option>
+            </param>
+            <!-- Ideally we want this hidden under a conditional, but I don't know how to (if it's even possible) to do a `<when value!="SHOW"/>` -->
+            <param name="argument" type="text" label="Argument"/>
+        </repeat>
     </inputs>
     <outputs>
         <data name="output" format="tsv" />

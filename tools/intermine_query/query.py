@@ -1,6 +1,5 @@
 from __future__ import print_function
 import sys
-import intermine
 from intermine.webservice import Service
 
 service = Service(sys.argv[1]+"/service")
