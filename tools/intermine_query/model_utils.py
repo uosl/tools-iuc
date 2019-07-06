@@ -1,22 +1,26 @@
-from intermine.webservice import Service
+import requests
+import json
+
+# We cannot use external libraries (like the `intermine` python client) here.
 
 server = 'http://www.flymine.org/flymine/service'
 
-service = Service(server)
-model = service.model
+endpoint = '%s/model?format=json' % server
+
+res = requests.get(url=endpoint)
+model = res.json()['model']
 
 def get_classes():
-    return [(cl, cl, cl == 'Gene') for cl in model.classes.keys()]
+    return [(cl['displayName'], cl['name'], cl == 'Gene')
+            for cl in model['classes'].values()]
 
 def get_attributes(class_name):
     attrs = list()
-    for field in model.get_class(class_name).fields:
-        if hasattr(field.type_class, 'attributes'):
-            cl = field.type_class
-            for attr in cl.attributes + cl.fields:
-                el = '.'.join([field.name, attr.name])
-                attrs.append((el, el, False))
-        else:
-            el = field.name
+    for attr in model['classes'][class_name]['attributes'].values():
+        el = attr['name']
+        attrs.append((el, el, False))
+    for cl in model['classes'][class_name]['collections'].values():
+        for attr in model['classes'][cl['referencedType']]['attributes'].values():
+            el = '.'.join([cl['name'], attr['name']])
             attrs.append((el, el, False))
     return attrs
