@@ -12,9 +12,9 @@
     ]]></command>
     <inputs>
         <param name="registry" type="select" label="Select registry" dynamic_options="get_registries()" />
-        <param name="class" type="select" label="Root data type for query" dynamic_options="get_classes()"/>
+        <param name="class" type="select" label="Root data type for query" dynamic_options="get_classes(registry)"/>
         <repeat name="query" title="Query options">
-            <param name="attribute" type="select" label="Data type" dynamic_options="get_attributes(class)"/>
+            <param name="attribute" type="select" label="Data type" dynamic_options="get_attributes(registry, class)"/>
             <param name="option" type="select" label="Option">
                 <option value="SHOW" selected="true">SHOW</option>
                 <option value="CONTAINS">CONTAINS</option>

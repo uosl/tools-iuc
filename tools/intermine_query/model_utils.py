@@ -3,18 +3,19 @@ import json
 
 # We cannot use external libraries (like the `intermine` python client) here.
 
-server = 'http://www.flymine.org/flymine/service'
+def create_model(registry):
+    endpoint = '%s/service/model?format=json' % registry
+    res = requests.get(url=endpoint)
+    model = res.json()['model']
+    return model
 
-endpoint = '%s/model?format=json' % server
-
-res = requests.get(url=endpoint)
-model = res.json()['model']
-
-def get_classes():
+def get_classes(registry):
+    model = create_model(registry)
     return [(cl['displayName'], cl['name'], cl == 'Gene')
             for cl in model['classes'].values()]
 
-def get_attributes(class_name):
+def get_attributes(registry, class_name):
+    model = create_model(registry)
     attrs = list()
     for attr in model['classes'][class_name]['attributes'].values():
         el = attr['name']
