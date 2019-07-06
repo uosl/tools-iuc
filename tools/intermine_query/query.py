@@ -3,10 +3,10 @@ import sys
 import intermine
 from intermine.webservice import Service
 
-service = Service("http://www.humanmine.org/humanmine/service")
+service = Service(sys.argv[1]+"/service")
 query = service.new_query("Gene")
 query.add_view("symbol")
-query.add_constraint("symbol", "=", sys.argv[1], code = "A")
+query.add_constraint("symbol", "=", sys.argv[2], code = "A")
 
 print("symbol")
 for row in query.rows():

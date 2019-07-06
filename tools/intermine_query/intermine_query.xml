@@ -5,11 +5,13 @@
     <requirements>
         <requirement type="package" version="1.11.0">intermine</requirement>
     </requirements>
+    <code file="registries.py" />
     <command detect_errors="exit_code"><![CDATA[
-        python '$__tool_directory__/query.py' '$symbol' > '$output'
+        python '$__tool_directory__/query.py' '$registry' '$symbol'> '$output'
     ]]></command>
     <inputs>
         <param name="symbol" type="text" label="Gene symbol" help="WOAH HELP ME" />
+	<param name="registry" type="select" label="Select registry" dynamic_options="get_registries()" help="Coasdasdpplied to the selected field's sdafdsa associated with this index." />
     </inputs>
     <outputs>
         <data name="output" format="tsv" />
