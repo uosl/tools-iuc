@@ -11,15 +11,14 @@ def create_model(registry):
 
 def get_classes(registry):
     model = create_model(registry)
-    return [(cl['displayName'], cl['name'], cl == 'Gene')
-            for cl in model['classes'].values()]
+    return [(cl['displayName'], cl['name'], cl['name'] == 'Gene') for cl in model['classes'].values()]
 
 def get_attributes(registry, class_name):
     model = create_model(registry)
     attrs = list()
     for attr in model['classes'][class_name]['attributes'].values():
         el = attr['name']
-        attrs.append((el, el, False))
+        attrs.append((el, el, el == 'symbol'))
     for cl in model['classes'][class_name]['collections'].values():
         for attr in model['classes'][cl['referencedType']]['attributes'].values():
             el = '.'.join([cl['name'], attr['name']])
